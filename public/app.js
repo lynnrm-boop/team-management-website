@@ -10,7 +10,9 @@ async function LoginPage(){ // start of function
     passwordInput.setAttribute("type","password");
 
     submitButton.addEventListener("click",async function (e){
-        
+        e.preventDefault();
+
+
 
         // to do make backend to verfie codes
     });
@@ -25,11 +27,22 @@ async function LoginPage(){ // start of function
 
 async function displayTask(taskData){ //start of function
     let task = document.createElement("div");
+    task.style.display = "grid";
+    task.style.width = "85%";
+    task.style.color = "white";
+    task.style.gridTemplateRows = "50% 50%";
+    task.style.gridTemplateColumns = "50% 50%";
+    task.style.backgroundColor = "black";
 
     let taskName = document.createElement("p");
     let taskGroup = document.createElement("p");
     let taskDueDate = document.createElement("p");
     let taskDiscription = document.createElement("p");
+
+    taskName.innerText = `${taskData.Name}`;
+    taskGroup.innerText = `${taskData.Group}`;
+    taskDueDate.innerText = `${taskData.DueDate}`;
+    taskDiscription.innerText = `${taskData.Discription}`;
 
     task.appendChild(taskName);
     task.appendChild(taskGroup);
@@ -81,7 +94,7 @@ async function makeTask(){ //start of function
         displayTask(input);
 
        
-        
+        form.remove();
 
     } //function end
 )
@@ -95,9 +108,53 @@ async function EditTask(task){ //start of function
 
 } // end of function
 
-function trackTime(){ //start of function
+async function trackTime(task){ //start of function
 
     // todo add track time code
+    document.getElementById("trackTime").innerHTML = "";
+
+    let TaskTrackRoot = document.createElement("div");
+    let TaskName = document.createElement("h1");
+    let Timer = document.createElement("h3");
+    let StartButton = document.createElement("button");
+    let StopButton = document.createElement("button");
+
+    TaskTrackRoot.style.width = "100%";
+    TaskTrackRoot.style.height = "100%";
+    TaskTrackRoot.style.display = "grid";
+    TaskTrackRoot.style.gridTemplateRows = "25% 25% 25% 25%";
+    TaskTrackRoot.style.gridTemplateColumns = "25% 25% 25% 25%";
+
+    TaskName.style.gridColumnStart = "1";
+    TaskName.style.gridColumnEnd = "1";
+    TaskName.style.gridRowStart = "1";
+    TaskName.style.gridRowEnd = "1";
+    TaskName.innerText = `${task.Name}`
+
+    Timer.style.gridColumnStart = "2";
+    Timer.style.gridColumnEnd = "3";
+    Timer.style.gridRowStart = "1";
+    Timer.style.gridRowEnd = "1";
+    Timer.innerText = "00:00:00";
+
+    StartButton.style.gridColumnStart = "1";
+    StartButton.style.gridColumnEnd = "2";
+    StartButton.style.gridRowStart = "4";
+    StartButton.style.gridRowEnd = "4";
+    StartButton.innerText = "start";
+
+    StopButton.style.gridColumnStart = "3";
+    StopButton.style.gridColumnEnd = "4";
+    StopButton.style.gridRowStart = "4";
+    StopButton.style.gridRowEnd = "4";
+    StopButton.innerText = "stop";
+
+    TaskTrackRoot.appendChild(TaskName);
+    TaskTrackRoot.appendChild(Timer);
+    TaskTrackRoot.appendChild(StartButton);
+    TaskTrackRoot.appendChild(StopButton);
+
+    document.getElementById("trackTime").appendChild(TaskTrackRoot);
 
 } // end of function
 
@@ -108,28 +165,56 @@ async function GetData(){ //start of functon
 } // end of function
 
 async function HomePage(Logdata){
-    document.getElementById("root").innerHTML = "";
+
+    // this create the home page
+
+    document.getElementById("root").innerHTML = ""; // clears the root
+
+    //start of homeRoot
 
     let HomeRoot = document.createElement("div");
-    HomeRoot.style.width = "100vw";
-    HomeRoot.style.height = "100vh";
-    HomeRoot.setAttribute("id","HomeRoot");
+    HomeRoot.style.width = "90vw";
+    HomeRoot.style.height = "98vh";
+    HomeRoot.setAttribute("id","HomeRoot"); 
+    
+    // end of homeRoot
+
+    // start of task display
 
     let TaskDisplay = document.createElement("div");
     TaskDisplay.setAttribute("id","taskDisplay")
+    TaskDisplay.style.width = "75%"
+    TaskDisplay.style.height = "100%"
+    TaskDisplay.style.position = "relative"; 
+    TaskDisplay.style.border = "2px solid rgb(50,50,50)"; 
+    
+    // end of taskDisplay 
 
     // to do connect to backend
    /* for(let i = 0; i < taskList.length; i++){
         TaskDisplay.appendChild(displayTask());
     } */
 
+    // start of makeTaskButton
+
     let MakeTaskButton = document.createElement("button"); // child of TaskDisplay not entire page
     MakeTaskButton.innerText = "+";
-    MakeTaskButton.style.width = "25%";
-    MakeTaskButton.style.height = "25%";
-    MakeTaskButton.addEventListener("click", makeTask)
+    MakeTaskButton.style.width = "50px";
+    MakeTaskButton.style.height = "50px";
+    MakeTaskButton.style.position = "absolute";
+    MakeTaskButton.style.right = "5%";
+    MakeTaskButton.style.bottom = "5%";
+    MakeTaskButton.style.borderRadius = "100%";
+    MakeTaskButton.addEventListener("click", makeTask);
+
+    //end of MakeTaskButton
+
+    //  start of TrackTime
 
     let TrackTime = document.createElement("div");
+    TrackTime.setAttribute("id","trackTime");
+
+    //end of trackTime
     
     TaskDisplay.appendChild(MakeTaskButton);
     HomeRoot.appendChild(TaskDisplay);
