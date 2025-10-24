@@ -9,8 +9,8 @@ async function LoginPage(){ // start of function
     usernameInput.setAttribute("type","text");
     passwordInput.setAttribute("type","password");
 
-    submitButton.addEventListener("click",async function (e){
-        e.preventDefault();
+    submitButton.addEventListener("click",async function (){
+        
 
 
 
@@ -38,6 +38,10 @@ async function displayTask(taskData){ //start of function
     let taskGroup = document.createElement("p");
     let taskDueDate = document.createElement("p");
     let taskDiscription = document.createElement("p");
+    let TrackTaskButton = document.createElement("button");
+
+
+    TrackTaskButton.addEventListener("click", trackTime, taskData.Name);
 
     taskName.innerText = `${taskData.Name}`;
     taskGroup.innerText = `${taskData.Group}`;
@@ -48,6 +52,7 @@ async function displayTask(taskData){ //start of function
     task.appendChild(taskGroup);
     task.appendChild(taskDueDate);
     task.appendChild(taskDiscription);
+    task.appendChild(TrackTaskButton);
     
     document.getElementById("taskDisplay").appendChild(task);
 
@@ -81,8 +86,7 @@ async function makeTask(){ //start of function
     form.appendChild(submitInput);
 
 
-    submitInput.addEventListener("click",(e) => { // function start
-        e.preventDefault();
+    submitInput.addEventListener("click",() => { // function start
 
         let input = {
             Name:taskNameInput.value,
@@ -126,16 +130,18 @@ async function trackTime(task){ //start of function
     TaskTrackRoot.style.gridTemplateColumns = "25% 25% 25% 25%";
 
     TaskName.style.gridColumnStart = "1";
-    TaskName.style.gridColumnEnd = "1";
+    TaskName.style.gridColumnEnd = "2";
     TaskName.style.gridRowStart = "1";
     TaskName.style.gridRowEnd = "1";
     TaskName.innerText = `${task.Name}`
+    TaskName.style.textAlign = "right";
 
     Timer.style.gridColumnStart = "2";
-    Timer.style.gridColumnEnd = "3";
+    Timer.style.gridColumnEnd = "4";
     Timer.style.gridRowStart = "1";
     Timer.style.gridRowEnd = "1";
     Timer.innerText = "00:00:00";
+    Timer.style.textAlign = "center";
 
     StartButton.style.gridColumnStart = "1";
     StartButton.style.gridColumnEnd = "2";
@@ -173,8 +179,10 @@ async function HomePage(Logdata){
     //start of homeRoot
 
     let HomeRoot = document.createElement("div");
-    HomeRoot.style.width = "90vw";
+    HomeRoot.style.width = "98vw";
     HomeRoot.style.height = "98vh";
+    HomeRoot.style.display = "grid";
+    HomeRoot.style.gridTemplateColumns = "75% 25%"; 
     HomeRoot.setAttribute("id","HomeRoot"); 
     
     // end of homeRoot
@@ -183,7 +191,7 @@ async function HomePage(Logdata){
 
     let TaskDisplay = document.createElement("div");
     TaskDisplay.setAttribute("id","taskDisplay")
-    TaskDisplay.style.width = "75%"
+    TaskDisplay.style.width = "100%"
     TaskDisplay.style.height = "100%"
     TaskDisplay.style.position = "relative"; 
     TaskDisplay.style.border = "2px solid rgb(50,50,50)"; 
@@ -213,6 +221,7 @@ async function HomePage(Logdata){
 
     let TrackTime = document.createElement("div");
     TrackTime.setAttribute("id","trackTime");
+    TrackTime.style
 
     //end of trackTime
     
