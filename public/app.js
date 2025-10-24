@@ -39,21 +39,30 @@ async function displayTask(taskData){ //start of function
     let taskDueDate = document.createElement("p");
     let taskDiscription = document.createElement("p");
     let TrackTaskButton = document.createElement("button");
+    let EditTaskButton = document.createElement("button");
 
 
-    TrackTaskButton.addEventListener("click", trackTime, taskData.Name);
+    EditTaskButton.addEventListener("click", async () => {
+        EditTask();
+    })
+    
+    TrackTaskButton.addEventListener("click", async () => {
+        trackTime();
+    }); //please work
+    // why won't this work why won't this work why won't this work
 
     taskName.innerText = `${taskData.Name}`;
     taskGroup.innerText = `${taskData.Group}`;
     taskDueDate.innerText = `${taskData.DueDate}`;
     taskDiscription.innerText = `${taskData.Discription}`;
-
+    
     task.appendChild(taskName);
     task.appendChild(taskGroup);
     task.appendChild(taskDueDate);
     task.appendChild(taskDiscription);
     task.appendChild(TrackTaskButton);
-    
+    task.appendChild(EditTaskButton);
+
     document.getElementById("taskDisplay").appendChild(task);
 
 } //end of function
@@ -108,8 +117,31 @@ async function makeTask(){ //start of function
 
 } // end of function
 
-async function EditTask(task){ //start of function
+function EditTask(task){ //start of function
+    let form = document.createElement("form");
+    let taskNameInput = document.createElement("input");
+    let taskGroupInput = document.createElement("input");
+    let taskDueDateInput = document.createElement("input");
+    let taskDiscriptionInput = document.createElement("input");
+    let submitInput = document.createElement("button");
 
+    form.style.position = "absolute"
+    form.style.display = "grid";
+    form.style.width = "50%";
+    form.style.height = "75%";
+    form.style.gridTemplateRows = "20% 20% 20% 20% 20%";
+    form.style.backgroundColor = "black";
+    form.style.right = "25%";
+    form.style.top = "12.5%"
+
+
+    taskNameInput.setAttribute("type","text");
+
+    form.appendChild(taskNameInput);
+    form.appendChild(taskGroupInput);
+    form.appendChild(taskDueDateInput);
+    form.appendChild(taskDiscriptionInput);
+    form.appendChild(submitInput);
 } // end of function
 
 async function trackTime(task){ //start of function
@@ -133,7 +165,7 @@ async function trackTime(task){ //start of function
     TaskName.style.gridColumnEnd = "2";
     TaskName.style.gridRowStart = "1";
     TaskName.style.gridRowEnd = "1";
-    TaskName.innerText = `${task.Name}`
+    TaskName.innerText = `${trackTime}`
     TaskName.style.textAlign = "right";
 
     Timer.style.gridColumnStart = "2";
