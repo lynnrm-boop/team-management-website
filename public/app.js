@@ -188,15 +188,15 @@ async function trackTime(task){ //start of function
         let seconds = 0;
         let minutes = 0;
         let hours = 0;
-        setInterval(() => {
+        let Timerinterval = setInterval(() => {
 
             if(TrackTime){
                 seconds++
-                if(seconds = 60){
+                if(seconds == 60){
                     minutes++
                     seconds = 0;
                 }
-                if(minutes = 60){
+                if(minutes == 60){
                     hours++
                     minutes = 0;
                 }
@@ -204,8 +204,7 @@ async function trackTime(task){ //start of function
                 Timer.innerText = `${hours}:${minutes}:${seconds}`
                 console.log("running interals")
             }else{
-                startTime = null;
-                clearInterval(this);
+                clearInterval(Timerinterval);
             }
 
         }, 1000)
