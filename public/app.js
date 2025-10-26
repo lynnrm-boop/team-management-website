@@ -1,3 +1,6 @@
+let TrackTime = false;
+
+
 async function LoginPage(){ // start of function
     
     let form = document.createElement("form");
@@ -43,11 +46,11 @@ async function displayTask(taskData){ //start of function
 
 
     EditTaskButton.addEventListener("click", async () => {
-        EditTask();
+        EditTask(taskData); //should send in all data for the task so that it can be modified
     })
     
     TrackTaskButton.addEventListener("click", async () => {
-        trackTime();
+        trackTime(taskData.Name); //todo add ID so that the count can be modified 
     }); //please work
     // why won't this work why won't this work why won't this work
 
@@ -145,7 +148,6 @@ function EditTask(task){ //start of function
 } // end of function
 
 async function trackTime(task){ //start of function
-
     // todo add track time code
     document.getElementById("trackTime").innerHTML = "";
 
@@ -154,6 +156,7 @@ async function trackTime(task){ //start of function
     let Timer = document.createElement("h3");
     let StartButton = document.createElement("button");
     let StopButton = document.createElement("button");
+    let ClearButton = document.createElement("button");
 
     TaskTrackRoot.style.width = "100%";
     TaskTrackRoot.style.height = "100%";
@@ -165,7 +168,7 @@ async function trackTime(task){ //start of function
     TaskName.style.gridColumnEnd = "2";
     TaskName.style.gridRowStart = "1";
     TaskName.style.gridRowEnd = "1";
-    TaskName.innerText = `${trackTime}`
+    TaskName.innerText = `${task}` // don't tauch
     TaskName.style.textAlign = "right";
 
     Timer.style.gridColumnStart = "2";
@@ -180,21 +183,53 @@ async function trackTime(task){ //start of function
     StartButton.style.gridRowStart = "4";
     StartButton.style.gridRowEnd = "4";
     StartButton.innerText = "start";
+    StartButton.addEventListener("click",()=>{
+        TrackTime = true;
+        let seconds = 0;
+        let minutes = 0;
+        let hours = 0;
+        setInterval(() => {
+
+            if(TrackTime){
+                seconds++
+                if(seconds = 60){
+                    minutes++
+                    seconds = 0;
+                }
+                if(minutes = 60){
+                    hours++
+                    minutes = 0;
+                }
+                
+                Timer.innerText = `${hours}:${minutes}:${seconds}`
+                console.log("running interals")
+            }else{
+                startTime = null;
+                clearInterval(this);
+            }
+
+        }, 1000)
+    })
 
     StopButton.style.gridColumnStart = "3";
     StopButton.style.gridColumnEnd = "4";
     StopButton.style.gridRowStart = "4";
     StopButton.style.gridRowEnd = "4";
     StopButton.innerText = "stop";
+    StopButton.addEventListener("click",()=>{
+        TrackTime = false;
+    })
 
     TaskTrackRoot.appendChild(TaskName);
     TaskTrackRoot.appendChild(Timer);
     TaskTrackRoot.appendChild(StartButton);
     TaskTrackRoot.appendChild(StopButton);
+    TaskTrackRoot.appendChild(ClearButton);
 
     document.getElementById("trackTime").appendChild(TaskTrackRoot);
 
 } // end of function
+
 
 async function GetData(){ //start of functon
 
