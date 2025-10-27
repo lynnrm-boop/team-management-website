@@ -1,6 +1,5 @@
 let TrackTime = false;
 
-
 async function LoginPage(){ // start of function
     
     let form = document.createElement("form");
@@ -46,7 +45,7 @@ async function displayTask(taskData){ //start of function
 
 
     EditTaskButton.addEventListener("click", async () => {
-        EditTask(taskData); //should send in all data for the task so that it can be modified
+        EditTask(taskData, task); //should send in all data for the task so that it can be modified
     })
     
     TrackTaskButton.addEventListener("click", async () => {
@@ -120,7 +119,7 @@ async function makeTask(){ //start of function
 
 } // end of function
 
-function EditTask(task){ //start of function
+async function EditTask(taskData, taskDisplay){ //start of function
     let form = document.createElement("form");
     let taskNameInput = document.createElement("input");
     let taskGroupInput = document.createElement("input");
@@ -137,6 +136,21 @@ function EditTask(task){ //start of function
     form.style.right = "25%";
     form.style.top = "12.5%"
 
+    taskNameInput.value = taskData.Name;
+    taskGroupInput.value = taskData.Group;
+    taskDueDateInput.value = taskData.DueDate;
+    taskDiscriptionInput.value = taskData.Discription;
+
+    submitInput.addEventListener("click", async () => {
+
+        // todo connect to backend
+
+        taskDisplay.children[0].innerText = taskNameInput.value;
+        taskDisplay.children[1].innerText = taskGroupInput.value;
+        taskDisplay.children[2].innerText = taskDueDateInput.value;
+        taskDisplay.children[3].innerText = taskDiscriptionInput.value;
+        form.remove();
+    })
 
     taskNameInput.setAttribute("type","text");
 
@@ -145,6 +159,8 @@ function EditTask(task){ //start of function
     form.appendChild(taskDueDateInput);
     form.appendChild(taskDiscriptionInput);
     form.appendChild(submitInput);
+
+    document.getElementById("root").appendChild(form);
 } // end of function
 
 async function trackTime(task){ //start of function
@@ -264,7 +280,7 @@ async function HomePage(Logdata){
     
     // end of taskDisplay 
 
-    // to do connect to backend
+    // to do connect to backend recive json
    /* for(let i = 0; i < taskList.length; i++){
         TaskDisplay.appendChild(displayTask());
     } */
