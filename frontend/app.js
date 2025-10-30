@@ -1,0 +1,355 @@
+let TrackTime = false;
+
+async function LoginPage(){ // start of function
+    
+    let form = document.createElement("form");
+    let usernameInput = document.createElement("input");
+    let passwordInput = document.createElement("input");
+    let submitButton = document.createElement("button");
+    let signUp = document.createElement("button");
+
+    usernameInput.setAttribute("type","text");
+    passwordInput.setAttribute("type","password");
+
+    submitButton.addEventListener("click",async function (e){
+        
+        e.preventDefault();
+    try{
+        const URL = 'insertURLHERE';
+
+        const codes = await fetch(URL,{
+            method:"POST",
+            body: JSON.stringify({userName:usernameInput.value, password:passwordInput.value})
+        })
+
+        // todo use cookies to save codes in order to save codes across sesions
+        if(!codes.ok){
+            throw new Error(`Response Status: ${codes.status}`); 
+        }
+
+        let Data = fetch(URL, 
+            {
+                method:Get,
+                body: JSON.stringify({code:codes.json().SessionID})
+            }
+        )
+    }catch(error){
+
+    }
+
+        // to do make backend to verfie codes
+    });
+
+    form.appendChild(usernameInput);
+    form.appendChild(passwordInput);
+    form.appendChild(submitButton);
+    form.appendChild(signUp);
+    document.getElementById("root").appendChild(form);
+
+} //end of function
+
+async function displayTask(taskData){ //start of function
+    let task = document.createElement("div");
+    task.style.display = "grid";
+    task.style.width = "85%";
+    task.style.color = "white";
+    task.style.gridTemplateRows = "50% 50%";
+    task.style.gridTemplateColumns = "50% 50%";
+    task.style.backgroundColor = "black";
+
+    let taskName = document.createElement("p");
+    let taskGroup = document.createElement("p");
+    let taskDueDate = document.createElement("p");
+    let taskDiscription = document.createElement("p");
+    let TrackTaskButton = document.createElement("button");
+    let EditTaskButton = document.createElement("button");
+
+
+    EditTaskButton.addEventListener("click", async () => {
+        EditTask(taskData, task); //should send in all data for the task so that it can be modified
+    })
+    
+    TrackTaskButton.addEventListener("click", async () => {
+        trackTime(taskData.Name); //todo add ID so that the count can be modified 
+    }); //please work
+    // why won't this work why won't this work why won't this work
+
+    taskName.innerText = `${taskData.Name}`;
+    taskGroup.innerText = `${taskData.Group}`;
+    taskDueDate.innerText = `${taskData.DueDate}`;
+    taskDiscription.innerText = `${taskData.Discription}`;
+    
+    task.appendChild(taskName);
+    task.appendChild(taskGroup);
+    task.appendChild(taskDueDate);
+    task.appendChild(taskDiscription);
+    task.appendChild(TrackTaskButton);
+    task.appendChild(EditTaskButton);
+
+    document.getElementById("taskDisplay").appendChild(task);
+
+} //end of function
+
+async function makeTask(){ //start of function
+
+    let form = document.createElement("form");
+    let taskNameInput = document.createElement("input");
+    let taskGroupInput = document.createElement("input");
+    let taskDueDateInput = document.createElement("input");
+    let taskDiscriptionInput = document.createElement("input");
+    let submitInput = document.createElement("button");
+
+    form.style.position = "absolute"
+    form.style.display = "grid";
+    form.style.width = "50%";
+    form.style.height = "75%";
+    form.style.gridTemplateRows = "20% 20% 20% 20% 20%";
+    form.style.backgroundColor = "black";
+    form.style.right = "25%";
+    form.style.top = "12.5%"
+
+
+    taskNameInput.setAttribute("type","text");
+
+    form.appendChild(taskNameInput);
+    form.appendChild(taskGroupInput);
+    form.appendChild(taskDueDateInput);
+    form.appendChild(taskDiscriptionInput);
+    form.appendChild(submitInput);
+
+
+    submitInput.addEventListener("click",() => { // function start
+
+        let input = {
+            Name:taskNameInput.value,
+            Group:taskGroupInput.value,
+            DueDate:taskDueDateInput.value,
+            Discription:taskDiscriptionInput.value   
+        };
+
+        displayTask(input);
+
+       
+        form.remove();
+
+    } //function end
+)
+
+    document.getElementById("root").appendChild(form);
+    //todo make this data send to backend
+
+} // end of function
+
+async function EditTask(taskData, taskDisplay){ //start of function
+    let form = document.createElement("form");
+    let taskNameInput = document.createElement("input");
+    let taskGroupInput = document.createElement("input");
+    let taskDueDateInput = document.createElement("input");
+    let taskDiscriptionInput = document.createElement("input");
+    let submitInput = document.createElement("button");
+
+    form.style.position = "absolute"
+    form.style.display = "grid";
+    form.style.width = "50%";
+    form.style.height = "75%";
+    form.style.gridTemplateRows = "20% 20% 20% 20% 20%";
+    form.style.backgroundColor = "black";
+    form.style.right = "25%";
+    form.style.top = "12.5%"
+
+    taskNameInput.value = taskData.Name;
+    taskGroupInput.value = taskData.Group;
+    taskDueDateInput.value = taskData.DueDate;
+    taskDiscriptionInput.value = taskData.Discription;
+
+    submitInput.addEventListener("click", async () => {
+
+        // todo connect to backend
+
+        taskDisplay.children[0].innerText = taskNameInput.value;
+        taskDisplay.children[1].innerText = taskGroupInput.value;
+        taskDisplay.children[2].innerText = taskDueDateInput.value;
+        taskDisplay.children[3].innerText = taskDiscriptionInput.value;
+        form.remove();
+    })
+
+    taskNameInput.setAttribute("type","text");
+
+    form.appendChild(taskNameInput);
+    form.appendChild(taskGroupInput);
+    form.appendChild(taskDueDateInput);
+    form.appendChild(taskDiscriptionInput);
+    form.appendChild(submitInput);
+
+    document.getElementById("root").appendChild(form);
+} // end of function
+
+async function trackTime(task){ //start of function
+    // todo add track time code
+    document.getElementById("trackTime").innerHTML = "";
+
+    let TaskTrackRoot = document.createElement("div");
+    let TaskName = document.createElement("h1");
+    let Timer = document.createElement("h3");
+    let StartButton = document.createElement("button");
+    let StopButton = document.createElement("button");
+    let ClearButton = document.createElement("button");
+
+    TaskTrackRoot.style.width = "100%";
+    TaskTrackRoot.style.height = "100%";
+    TaskTrackRoot.style.display = "grid";
+    TaskTrackRoot.style.gridTemplateRows = "25% 25% 25% 25%";
+    TaskTrackRoot.style.gridTemplateColumns = "25% 25% 25% 25%";
+
+    TaskName.style.gridColumnStart = "1";
+    TaskName.style.gridColumnEnd = "2";
+    TaskName.style.gridRowStart = "1";
+    TaskName.style.gridRowEnd = "1";
+    TaskName.innerText = `${task}` // don't tauch
+    TaskName.style.textAlign = "right";
+
+    Timer.style.gridColumnStart = "2";
+    Timer.style.gridColumnEnd = "4";
+    Timer.style.gridRowStart = "1";
+    Timer.style.gridRowEnd = "1";
+    Timer.innerText = "00:00:00";
+    Timer.style.textAlign = "center";
+
+    StartButton.style.gridColumnStart = "1";
+    StartButton.style.gridColumnEnd = "2";
+    StartButton.style.gridRowStart = "4";
+    StartButton.style.gridRowEnd = "4";
+    StartButton.innerText = "start";
+    StartButton.addEventListener("click",()=>{
+        TrackTime = true;
+        let seconds = 0;
+        let minutes = 0;
+        let hours = 0;
+        let Timerinterval = setInterval(() => {
+
+            if(TrackTime){
+                seconds++
+                if(seconds == 60){
+                    minutes++
+                    seconds = 0;
+                }
+                if(minutes == 60){
+                    hours++
+                    minutes = 0;
+                }
+                
+                Timer.innerText = `${hours}:${minutes}:${seconds}`
+                console.log("running interals")
+            }else{
+                clearInterval(Timerinterval);
+            }
+
+        }, 1000)
+    })
+
+    StopButton.style.gridColumnStart = "3";
+    StopButton.style.gridColumnEnd = "4";
+    StopButton.style.gridRowStart = "4";
+    StopButton.style.gridRowEnd = "4";
+    StopButton.innerText = "stop";
+    StopButton.addEventListener("click",()=>{
+        TrackTime = false;
+    })
+
+    TaskTrackRoot.appendChild(TaskName);
+    TaskTrackRoot.appendChild(Timer);
+    TaskTrackRoot.appendChild(StartButton);
+    TaskTrackRoot.appendChild(StopButton);
+    TaskTrackRoot.appendChild(ClearButton);
+
+    document.getElementById("trackTime").appendChild(TaskTrackRoot);
+
+} // end of function
+
+
+async function GetData(){ //start of functon
+
+    //todo connect backend
+
+} // end of function
+
+async function HomePage(Logdata){
+
+    // this create the home page
+
+    document.getElementById("root").innerHTML = ""; // clears the root
+
+    //start of homeRoot
+
+    let HomeRoot = document.createElement("div");
+    HomeRoot.style.width = "98vw";
+    HomeRoot.style.height = "98vh";
+    HomeRoot.style.display = "grid";
+    HomeRoot.style.gridTemplateColumns = "75% 25%"; 
+    HomeRoot.setAttribute("id","HomeRoot"); 
+    
+    // end of homeRoot
+
+    // start of task display
+
+    let TaskDisplay = document.createElement("div");
+    TaskDisplay.setAttribute("id","taskDisplay")
+    TaskDisplay.style.width = "100%"
+    TaskDisplay.style.height = "100%"
+    TaskDisplay.style.position = "relative"; 
+    TaskDisplay.style.border = "2px solid rgb(50,50,50)"; 
+    
+    // end of taskDisplay 
+
+    // to do connect to backend recive json
+   /* for(let i = 0; i < taskList.length; i++){
+        TaskDisplay.appendChild(displayTask());
+    } */
+
+    // start of makeTaskButton
+
+    let MakeTaskButton = document.createElement("button"); // child of TaskDisplay not entire page
+    MakeTaskButton.innerText = "+";
+    MakeTaskButton.style.width = "50px";
+    MakeTaskButton.style.height = "50px";
+    MakeTaskButton.style.position = "absolute";
+    MakeTaskButton.style.right = "5%";
+    MakeTaskButton.style.bottom = "5%";
+    MakeTaskButton.style.borderRadius = "100%";
+    MakeTaskButton.addEventListener("click", makeTask);
+
+    //end of MakeTaskButton
+
+    //  start of TrackTime
+
+    let TrackTime = document.createElement("div");
+    TrackTime.setAttribute("id","trackTime");
+    TrackTime.style
+
+    //end of trackTime
+    
+    TaskDisplay.appendChild(MakeTaskButton);
+    HomeRoot.appendChild(TaskDisplay);
+    HomeRoot.appendChild(TrackTime);
+
+    document.getElementById("root").appendChild(HomeRoot);
+
+}
+
+async function Main(){ //start of function
+
+    //to do set up checking cookies and declare islogedin
+    if(true === true){ //start of if statment
+        HomePage();
+    } // end of if statment
+    else // start of else statment
+    {
+
+        console.log("running");
+        LoginPage();
+
+    } // end of else statment
+
+} // end of function
+
+Main();
