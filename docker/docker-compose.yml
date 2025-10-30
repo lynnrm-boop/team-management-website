@@ -1,0 +1,11 @@
+
+services:
+  web:
+    image: nginx
+    container_name: frontend_container
+    ports:
+      - "80:80"
+    volumes:
+      - ../frontend/index.html:/usr/share/nginx/html/index.html
+      - ../frontend/app.js:/usr/share/nginx/html/app.js
+      - ../frontend/styles.css:/usr/share/nginx/html/styles.css
