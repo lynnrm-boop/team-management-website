@@ -1,16 +1,2 @@
 
-services:
-  web:
-    image: nginx
-    container_name: frontend_container
-    ports:
-      - "80:80"
-    volumes:
-      - ../frontend/index.html:/usr/share/nginx/html/index.html
-    depends_on:
-      - api
-
-  api:
-    image: php:8.2-apache
-    expose: 5050
 
